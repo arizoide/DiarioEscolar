@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 import com.example.diarioescolar.model.Aluno;
+import com.example.diarioescolar.model.AlunoAreaInteresse;
 
 public class AlunoDAO extends SQLiteOpenHelper {
     public AlunoDAO(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
@@ -25,9 +26,10 @@ public class AlunoDAO extends SQLiteOpenHelper {
                 "DATA_NASCIMENTO TEXT);";
 
         sqLiteDatabase.execSQL(createTable);
+
     }
 
-    public void salvar(Aluno aluno){
+    public Integer salvar(Aluno aluno){
         ContentValues c = new ContentValues();
         c.put("NOME", aluno.getNome());
         c.put("CPF", aluno.getCPF());
@@ -37,7 +39,7 @@ public class AlunoDAO extends SQLiteOpenHelper {
 
         SQLiteDatabase db = getWritableDatabase();
 
-        db.insert("ALUNO", null, c);
+        return (int) db.insert("ALUNO", null, c);
     }
 
     @Override

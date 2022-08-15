@@ -9,8 +9,10 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.diarioescolar.dao.AlunoAreasInteresseDAO;
 import com.example.diarioescolar.dao.AlunoDAO;
 import com.example.diarioescolar.model.Aluno;
+import com.example.diarioescolar.model.AlunoAreaInteresse;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -56,28 +58,43 @@ public class CadastrarAluno extends AppCompatActivity {
                 } catch (ParseException e) {
                     Toast.makeText(CadastrarAluno.this, "Data inválida", Toast.LENGTH_LONG);
                 }
+
+                List<String> areas = new ArrayList<>();
                 //Áreas de interesse
                 if (chkbxTI.isChecked()) {
-                    aluno.setAreasInteresse("TI");
+                    areas.add("TI");
                 }
                 if (chkbxEngenharia.isChecked()) {
-                    aluno.setAreasInteresse("Engenharia");
+                    areas.add("Engenharia");
                 }
                 if (chkbxOutros.isChecked()) {
-                    aluno.setAreasInteresse("Outros");
+                    areas.add("Outros");
                 }
                 if (chkbxSaude.isChecked()) {
-                    aluno.setAreasInteresse("Saude");
+                    areas.add("Saude");
                 }
                 if (chkbxTeatro.isChecked()) {
-                    aluno.setAreasInteresse("Teatro");
+                    areas.add("Teatro");
                 }
                 if (chkbxTST.isChecked()) {
-                    aluno.setAreasInteresse("TST");
+                    areas.add("TST");
                 }
 
+                aluno.setAreasInteresse(areas);
+
                 AlunoDAO dao = new AlunoDAO(CadastrarAluno.this, "DIARIO", null, 1);
-                dao.salvar(aluno);
+                Integer idSalvo = dao.salvar(aluno);
+
+                AlunoAreasInteresseDAO daoAreaInteresse = new AlunoAreasInteresseDAO(CadastrarAluno.this, "DIARIO", null, 2);
+
+                //Salvar as áreas de interesse
+                for (String areaInteresse : aluno.getAreasInteresse()) {
+                    AlunoAreaInteresse alunoAreaInteresse = new AlunoAreaInteresse();
+                    alunoAreaInteresse.setIdAluno((int) idSalvo);
+                    alunoAreaInteresse.setAreaInteresse(areaInteresse);
+
+                    daoAreaInteresse.salvar(alunoAreaInteresse);
+                }
             }
         });
 

@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Aluno {
-    private String id;
+    private Integer id;
     private String nome;
     private String CPF;
     private String email;
@@ -12,11 +12,11 @@ public class Aluno {
     private String telefone;
     private List<String> areasInteresse;
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -64,7 +64,7 @@ public class Aluno {
         return areasInteresse;
     }
 
-    public void setAreasInteresse(String interesse) {
-        this.areasInteresse.add(interesse);
+    public void setAreasInteresse(List<String> areasInteresse) {
+        this.areasInteresse = areasInteresse;
     }
 }
